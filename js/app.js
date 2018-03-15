@@ -1,8 +1,14 @@
 // Enemies our player must avoid
-var Enemy = function() {
+var count = 0;
+var Enemy = function(x,y) {
     // Variables applied to each of our instances go here,
     // we've provided one for you to get started
-
+    this.x = x;
+    this.y = y;
+    this.speed = Math.floor(Math.random()*500);
+    if(this.speed < 200) {
+        this.speed = 200;
+    }
     // The image/sprite for our enemies, this uses
     // a helper we've provided to easily load images
     this.sprite = 'images/enemy-bug.png';
@@ -13,7 +19,11 @@ var Enemy = function() {
 Enemy.prototype.update = function(dt) {
     // You should multiply any movement by the dt parameter
     // which will ensure the game runs at the same speed for
-    // all computers.
+    // all computers
+    this.x = (this.x) + this.speed*dt;
+    if(this.x > 505) {
+        this.x = -25;
+    }
 };
 
 // Draw the enemy on the screen, required method for game
@@ -24,12 +34,72 @@ Enemy.prototype.render = function() {
 // Now write your own player class
 // This class requires an update(), render() and
 // a handleInput() method.
+var Players = function() {
+    this.x=200;
+    this.y=400;
+    this.sprite = 'images/char-boy.png';
+};
 
+// Update the player's position, required method for game
+// Parameter: dt, a time delta between ticks
+Players.prototype.update = function(dt) {
+    // You should multiply any movement by the dt parameter
+    // which will ensure the game runs at the same speed for
+    // all computers.
+};
 
+// Draw the player on the screen, required method for game
+Players.prototype.render = function() {
+    ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
+};
+
+Players.prototype.handleInput = function(keyCode) {
+        if(keyCode == 'left') {
+            if((this.x - 90) > 0) {
+            this.x -= 90;
+            }
+        }
+        //top
+        else if(keyCode == 'up') {
+            if((this.y - 90) > -70) {
+            this.y -= 90;
+            }
+        }
+        //right
+        else if(keyCode == 'right') {
+            if((this.x + 90) < 405){
+            this.x += 90;
+            }
+        }
+        //bottom
+        else if(keyCode == 'down') {
+            if((this.y + 90) < 440){
+            this.y += 90;
+            }
+        }
+
+        if (this.y < 0) {
+            reset();
+        }
+}
+
+function reset() {
+    count++;
+    alert ( "YOU WIN AAYUSH : " + count );
+    player.x=200;
+    player.y=400;
+}
 // Now instantiate your objects.
 // Place all enemy objects in an array called allEnemies
 // Place the player object in a variable called player
 
+let allEnemies = [];
+allEnemies.push(new Enemy(Math.floor(Math.random()*200),50));
+allEnemies.push(new Enemy(Math.floor(Math.random()*200),140));
+allEnemies.push(new Enemy(Math.floor(Math.random()*200),230));
+allEnemies.push(new Enemy(Math.floor(Math.random()*200),50));
+allEnemies.push(new Enemy(Math.floor(Math.random()*200),230));
+let player = new Players();
 
 
 // This listens for key presses and sends the keys to your
