@@ -1,11 +1,15 @@
-var count = 0;
+var count = 0; //complete game is won if count is 5
+//the kingdoms that neeed to be conquered
 var kingdom = ["Dorne", "Westeros", "Highgarden", "Valeria", "Winterfell"];
+//the charaters rescued after each win
 var thrones = ["char-cat-girl", "char-pink-girl", "char-horn-girl", "char-princess-girl", "Key"];
 // Enemies our player must avoid
 var Enemy = function(x,y) {
     this.x = x;
     this.y = y;
+    //assigning a random speed to each bug
     this.speed = Math.floor(Math.random()*500);
+    //min speed must be 200
     if(this.speed < 200) {
         this.speed = 200;
     }
@@ -14,10 +18,10 @@ var Enemy = function(x,y) {
     this.sprite = 'images/enemy-bug.png';
 };
 
-// Update the enemy's position, required method for game
+// Updates the enemy's position
 // Parameter: dt, a time delta between ticks
 Enemy.prototype.update = function(dt) {
-    // You should multiply any movement by the dt parameter
+    // Multiply any movement by the dt parameter
     // which will ensure the game runs at the same speed for
     // all computers
     this.x = (this.x) + this.speed*dt;
@@ -26,14 +30,12 @@ Enemy.prototype.update = function(dt) {
     }
 };
 
-// Draw the enemy on the screen, required method for game
+// Draws the enemy on the screen
 Enemy.prototype.render = function() {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
 };
 
-// Now write your own player class
-// This class requires an update(), render() and
-// a handleInput() method.
+// Predefine position for player object
 var Players = function() {
     this.x=202;
     this.y=404;
@@ -41,15 +43,18 @@ var Players = function() {
 
 };
 
+// This method will be used in case we decide to add
+// additional features in the future, like gem collect
 Players.prototype.update = function() {
     //noop
 };
 
-// Draw the player on the screen, required method for game
+// Draws the player on the screen
 Players.prototype.render = function() {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
 };
 
+// handles the movement of player
 Players.prototype.handleInput = function(keyCode) {
         if(keyCode == 'left') {
             if((this.x - 101) >= 0) {
@@ -76,22 +81,26 @@ Players.prototype.handleInput = function(keyCode) {
         }
         if (this.y < 0) {
             count++;
+            // check if the game is won
             if(count === 5) {
                 setTimeout(function(){
                     alert("You have successfully claimed the Bug Throne!");
                     count=0;
                 }, 100);  
             }
+            // reset after each win
             reset();
         }
 }
 
+// reset the player's position
 function reset() {
     player.x=202;
     player.y=404;
 }
-// Now instantiate your objects.
+// Instantiating the objects.
 // Place all enemy objects in an array called allEnemies
+// all enemies have a predefined value for the y-axis
 // Place the player object in a variable called player
 
 let allEnemies = [];
@@ -116,10 +125,11 @@ document.addEventListener('keyup', function(e) {
     player.handleInput(allowedKeys[e.keyCode]);
 });
 
-function checkCollisions(){
-    for (let index = 0; index < allEnemies.length; index++){
+// function to check if player collides with an enemy bug
+function checkCollisions() {
+    for (let index = 0; index < allEnemies.length; index++) {
         const enemy = allEnemies[index];
-        if (Math.abs(enemy.x - player.x) <= 50 && enemy.y === player.y){
+        if (Math.abs(enemy.x - player.x) <= 50 && enemy.y === player.y) {
             alert("You have been devoured by the evil bugs of " + kingdom[count]);
             count=0;
             reset();
@@ -128,11 +138,12 @@ function checkCollisions(){
     }
 }
 
-function checkWinAndRenderStars(){
-    if (count === 0){
+// checks if the game is won and renders rescued characters on the top line
+function checkWinAndRenderStars() {
+    if (count === 0) {
             return;
         }
-    for (var i = 0; i < count; i++){
+    for (var i = 0; i < count; i++) {
         let pos = i % 5;
         ctx.drawImage(Resources.get(`images/${thrones[pos]}.png`), 101 * pos, -10);
     } 

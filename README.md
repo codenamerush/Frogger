@@ -1,6 +1,14 @@
-frontend-nanodegree-arcade-game
-===============================
+# Game of Bugs
 
-Students should use this [rubric](https://review.udacity.com/#!/projects/2696458597/rubric) for self-checking their submission. Make sure the functions you write are **object-oriented** - either class functions (like Player and Enemy) or class prototype functions such as Enemy.prototype.checkCollisions, and that the keyword 'this' is used appropriately within your class and class prototype functions to refer to the object the function is called upon. Also be sure that the **readme.md** file is updated with your instructions on both how to 1. Run and 2. Play your arcade game.
+### Installation
+Simply download all the files and run the file index.html
 
-For detailed instructions on how to get started, check out this [guide](https://docs.google.com/document/d/1v01aScPjSWCCWQLIpFqvg3-vXLH2e8_SZQKC8jNO0Dc/pub?embedded=true).
+### Rules
+1. The player would by default be at the bottom center of the canvas while the enemies would run across the canvas in varying speeds.
+2. The player can move left, right, up or down, in order to ao=void the bugs and reach the water.
+3. Every time the player reaches the water successfully, he would've saved one character that would be displayed on the water grid row.
+4. Losing any one round would reset the whole game.
+5. The player must win a total of 5 rounds, without failing, to successfully win the game and **claim the bug throne**.
+
+### Inspiration
+The whole idea about rescuing characters, addition of kingdoms and the title "Game of Bugs", was inspired by the popular show, Game of Thrones.
