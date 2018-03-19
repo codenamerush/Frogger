@@ -1,8 +1,8 @@
 var count = 0; //complete game is won if count is 5
 //the kingdoms that neeed to be conquered
-var kingdom = ["Dorne", "Westeros", "Highgarden", "Valeria", "Winterfell"];
+const kingdom = ["Dorne", "Westeros", "Highgarden", "Valeria", "Winterfell"];
 //the charaters rescued after each win
-var thrones = ["char-cat-girl", "char-pink-girl", "char-horn-girl", "char-princess-girl", "Key"];
+const thrones = ["char-cat-girl", "char-pink-girl", "char-horn-girl", "char-princess-girl", "Key"];
 // Enemies our player must avoid
 var Enemy = function(x,y) {
     this.x = x;
@@ -89,12 +89,12 @@ Players.prototype.handleInput = function(keyCode) {
                 }, 100);  
             }
             // reset after each win
-            reset();
+            this.reset();
         }
 }
 
 // reset the player's position
-function reset() {
+Players.prototype.reset = function() {
     player.x=202;
     player.y=404;
 }
@@ -132,7 +132,7 @@ function checkCollisions() {
         if (Math.abs(enemy.x - player.x) <= 50 && enemy.y === player.y) {
             alert("You have been devoured by the evil bugs of " + kingdom[count]);
             count=0;
-            reset();
+            player.reset();
             break;
         }
     }
