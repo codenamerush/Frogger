@@ -1,8 +1,8 @@
-// Enemies our player must avoid
 var count = 0;
+var kingdom = ["Dorne", "Westeros", "Highgarden", "Valeria", "Winterfell"];
+var thrones = ["char-cat-girl", "char-pink-girl", "char-horn-girl", "char-princess-girl", "Key"];
+// Enemies our player must avoid
 var Enemy = function(x,y) {
-    // Variables applied to each of our instances go here,
-    // we've provided one for you to get started
     this.x = x;
     this.y = y;
     this.speed = Math.floor(Math.random()*500);
@@ -35,17 +35,14 @@ Enemy.prototype.render = function() {
 // This class requires an update(), render() and
 // a handleInput() method.
 var Players = function() {
-    this.x=200;
-    this.y=400;
+    this.x=202;
+    this.y=404;
     this.sprite = 'images/char-boy.png';
+
 };
 
-// Update the player's position, required method for game
-// Parameter: dt, a time delta between ticks
-Players.prototype.update = function(dt) {
-    // You should multiply any movement by the dt parameter
-    // which will ensure the game runs at the same speed for
-    // all computers.
+Players.prototype.update = function() {
+    //noop
 };
 
 // Draw the player on the screen, required method for game
@@ -55,50 +52,54 @@ Players.prototype.render = function() {
 
 Players.prototype.handleInput = function(keyCode) {
         if(keyCode == 'left') {
-            if((this.x - 90) > 0) {
-            this.x -= 90;
+            if((this.x - 101) >= 0) {
+            this.x -= 101;
             }
         }
         //top
         else if(keyCode == 'up') {
-            if((this.y - 90) > -70) {
-            this.y -= 90;
+            if((this.y - 83) > -70) {
+            this.y -= 83;
             }
         }
         //right
         else if(keyCode == 'right') {
-            if((this.x + 90) < 405){
-            this.x += 90;
+            if((this.x + 101) < 405){
+            this.x += 101;
             }
         }
         //bottom
         else if(keyCode == 'down') {
-            if((this.y + 90) < 440){
-            this.y += 90;
+            if((this.y + 83) < 440){
+            this.y += 83;
             }
         }
-
         if (this.y < 0) {
+            count++;
+            if(count === 5) {
+                setTimeout(function(){
+                    alert("You have successfully claimed the Bug Throne!");
+                    count=0;
+                }, 100);  
+            }
             reset();
         }
 }
 
 function reset() {
-    count++;
-    alert ( "YOU WIN AAYUSH : " + count );
-    player.x=200;
-    player.y=400;
+    player.x=202;
+    player.y=404;
 }
 // Now instantiate your objects.
 // Place all enemy objects in an array called allEnemies
 // Place the player object in a variable called player
 
 let allEnemies = [];
-allEnemies.push(new Enemy(Math.floor(Math.random()*200),50));
-allEnemies.push(new Enemy(Math.floor(Math.random()*200),140));
-allEnemies.push(new Enemy(Math.floor(Math.random()*200),230));
-allEnemies.push(new Enemy(Math.floor(Math.random()*200),50));
-allEnemies.push(new Enemy(Math.floor(Math.random()*200),230));
+allEnemies.push(new Enemy(Math.floor(Math.random()*200),72));
+allEnemies.push(new Enemy(Math.floor(Math.random()*200),155));
+allEnemies.push(new Enemy(Math.floor(Math.random()*200),238));
+allEnemies.push(new Enemy(Math.floor(Math.random()*200),72));
+allEnemies.push(new Enemy(Math.floor(Math.random()*200),238));
 let player = new Players();
 
 
@@ -111,6 +112,28 @@ document.addEventListener('keyup', function(e) {
         39: 'right',
         40: 'down'
     };
-
+ 
     player.handleInput(allowedKeys[e.keyCode]);
 });
+
+function checkCollisions(){
+    for (let index = 0; index < allEnemies.length; index++){
+        const enemy = allEnemies[index];
+        if (Math.abs(enemy.x - player.x) <= 50 && enemy.y === player.y){
+            alert("You have been devoured by the evil bugs of " + kingdom[count]);
+            count=0;
+            reset();
+            break;
+        }
+    }
+}
+
+function checkWinAndRenderStars(){
+    if (count === 0){
+            return;
+        }
+    for (var i = 0; i < count; i++){
+        let pos = i % 5;
+        ctx.drawImage(Resources.get(`images/${thrones[pos]}.png`), 101 * pos, -10);
+    } 
+}
