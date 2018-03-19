@@ -1,18 +1,16 @@
+'use strict';
 var count = 0; //complete game is won if count is 5
 //the kingdoms that neeed to be conquered
 const kingdom = ["Dorne", "Westeros", "Highgarden", "Valeria", "Winterfell"];
 //the charaters rescued after each win
 const thrones = ["char-cat-girl", "char-pink-girl", "char-horn-girl", "char-princess-girl", "Key"];
 // Enemies our player must avoid
-var Enemy = function(x,y) {
+const Enemy = function(x,y) {
     this.x = x;
     this.y = y;
     //assigning a random speed to each bug
-    this.speed = Math.floor(Math.random()*500);
-    //min speed must be 200
-    if(this.speed < 200) {
-        this.speed = 200;
-    }
+    //this.speed = Math.floor(Math.random()*500);
+    this.speed = Math.random()*300 + 200;
     // The image/sprite for our enemies, this uses
     // a helper we've provided to easily load images
     this.sprite = 'images/enemy-bug.png';
