@@ -93,8 +93,8 @@ Players.prototype.handleInput = function(keyCode) {
 
 // reset the player's position
 Players.prototype.reset = function() {
-    player.x=202;
-    player.y=404;
+    this.x=202;
+    this.y=404;
 }
 // Instantiating the objects.
 // Place all enemy objects in an array called allEnemies
